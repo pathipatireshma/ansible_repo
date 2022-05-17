@@ -4,8 +4,8 @@
     - name: CentOS
       debug:
         msg: CentOS
-        tags:
-          - centos
+      tags:
+        - centos
 
 
 #- name: Tags
