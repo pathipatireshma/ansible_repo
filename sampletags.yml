@@ -2,5 +2,5 @@
   hosts: local
   tasks:
     - name: Centos
-      ansible.debug.module:
+      debug:
         msg: hello
