@@ -1,4 +1,4 @@
-- name: tags
+- name: Tags
   hosts: localhost
   tasks:
     - name: CentOS
