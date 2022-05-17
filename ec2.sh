@@ -11,7 +11,7 @@ INSTANCE_CREATE() {
   fi
 Instance_name="$1-dev"
 
-
+AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-7-DevOps-Practice" --query 'Images[*].[ImageId]' --output text)
   if [ -z "${AMI_ID}" ]; then
     echo -e "\e[1,31mUnable to find AMI_ID\e[0m"
     exit
@@ -19,28 +19,21 @@ Instance_name="$1-dev"
     echo -e "\e[1,32mAMI_ID = $AMI_ID\e[0m"
   fi
 
+PRIVATE_IP=$(aws ec2 describe-instance --filters "Name=tag:Name,Values=${Instance_name}" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)
+
+  if [ -z "${PRIVATE_IP}" ]; then
+    SG_ID=$(aws ec2 describe-security-groups --filter Name=group-name,Values='allow all ports' --query "SecurityGroups[*].GroupId" --output text)
+      if [ -z "${SG_ID}" ]; then
+        echo -e "\e[1;33m Security Group 'allow alll ports' does not exits"
+        exit
+      fi
 
 # Creating Instance
- aws ec2 run-instance --image-id ${AMI_ID} --instance-type t3.micro --output text --tag-specification "ResourceType-instance,Tags=[{key=Name,value=${Instance_name}}]" "ResourceType=spot-instance-request,Tags=[{Key=Name,Value=${Instance_name}}]" --instance-market-options "MarketType=spot,SpotOptions={InstanceInterruptionBehavior=stop,SpotInstanceType=persistence}" &>>LOG
+ aws ec2 run-instance --image-id ${AMI_ID} --instance-type t3.micro --output text --tag-specification "ResourceType-instance,Tags=[{key=Name,value=${Instance_name}}]" "ResourceType=spot-instance-request,Tags=[{Key=Name,Value=${Instance_name}}]" --instance-market-options "MarketType=spot,SpotOptions={InstanceInterruptionBehavior=stop,SpotInstanceType=persistence}" --security-group-ids "${SG_ID}" &>>$LOG
     echo -e "\e[1m Instance created\e[0m"
-#  else
-#    echo "Instance ${Instance_name} is already exists, Hence not creating"
-
-
-#    aws ec2 run-instances --image-id ${AMI_ID} --instance-type t3.micro --output text --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${INSTANCE_NAME}}]" "ResourceType=spot-instances-request,Tags=[{Key=Name,Value=${INSTANCE_NAME}}]"  --instance-market-options "MarketType=spot,SpotOptions={InstanceInterruptionBehavior=stop,SpotInstanceType=persistent}" --security-group-ids "${SG_ID}"  &>>$LOG
-#    echo -e "\e[1m Instance Created\e[0m"
-#  else
-#    echo "Instance ${INSTANCE_NAME} is already exists, Hence not creating"
-#  fi
-
-
-
-#PRIVATE_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${INSTANCE_NAME}" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)
-#
-#  if [ -z "${PRIVATE_IP}" ]; then
-#     Find Security Group
-
-
+  else
+    echo "Instance ${Instance_name} is already exists, Hence not creating"
+  fi
 
 }
 
