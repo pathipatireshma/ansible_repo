@@ -9,7 +9,7 @@ INSTANCE_CREATE() {
     echo -e "\e[1;33mInstance name argument is requried\e[0m"
     exit
   fi
-
+Instance_name="$1-dev"
 }
 
 #INSTANCE_CREATE() {
