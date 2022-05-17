@@ -11,7 +11,7 @@ INSTANCE_CREATE() {
     fi
 
 #AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-7-DevOps-Practice" --query 'Images[*].[ImageId]' --output text)
-AMI_ID=ami-03197d3284e25e8db
+AMI_ID=ami-0bb6af715826253bf
 
   if [ -z "${AMI_ID}" ]; then
     echo -e "\e[1,31mUnable to find AMI_ID\e[0m"
