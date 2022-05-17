@@ -34,6 +34,23 @@ PRIVATE_IP=$(aws ec2 describe-instance --filters "Name=tag:Name,Values=${Instanc
   else
     echo "Instance ${Instance_name} is already exists, Hence not creating"
   fi
+  IPADDRESS=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${Instance_name}" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)
+
+  echo '{
+              "Comment": "CREATE/DELETE/UPSERT a record ",
+              "Changes": [{
+              "Action": "UPSERT",
+                          "ResourceRecordSet": {
+                                      "Name": "DNSNAME.roboshop.internal",
+                                      "Type": "A",
+                                      "TTL": 300,
+                                   "ResourceRecords": [{ "Value": "IPADDRESS"}]
+  }}]
+  }' | sed -e "s/DNSNAME/${Instance_name}/" -e "s/IPADDRESS/${IPADDRESS}/"  >/tmp/record.json
+
+  ZONE_ID=$(aws route53 list-hosted-zones --query "HostedZones[*].{name:Name,ID:Id}" --output text | grep roboshop.internal  | awk '{print $1}' | awk -F / '{print $3}')
+  aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID --change-batch file:///tmp/record.json --output text &>>$LOG
+  echo -e "\e[1m DNS Record Created\e[0m"
 
 }
 
