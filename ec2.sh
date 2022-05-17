@@ -10,12 +10,13 @@ INSTANCE_CREATE() {
     exit
   fi
 Instance_name="$1-dev"
+
+
+  if [ -z "${AMI_ID}" ]; then
+    echo -e "\e[1,31mUnable to find AMI_ID\e[0m"
+    exit
+  else
+    echo -e "\e[1,32mAMI_ID = $AMI_ID\e[0m"
+  fi
 }
 
-#INSTANCE_CREATE() {
-#  INSTANCE_NAME=$1
-#  if [ -z "${INSTANCE_NAME}" ]; then
-#    echo -e "\e[1;33mInstance Name Argument is needed\e[0m"
-#    exit
-#  fi
-#  INSTANCE_NAME="$1-dev"
