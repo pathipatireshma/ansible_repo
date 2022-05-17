@@ -6,12 +6,12 @@ rm -f $LOG
 INSTANCE_CREATE() {
   Instance_name=$1
   if [ -z "${Instance_name}" ]; then
-    echo -e "\e[1;33mInstance name argument is requried\e[0m"
-    exit
-  fi
-Instance_name="$1-dev"
+      echo -e "\e[1;33mInstance Name Argument is needed\e[0m"
+      exit
+    fi
 
 AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-7-DevOps-Practice" --query 'Images[*].[ImageId]' --output text)
+
   if [ -z "${AMI_ID}" ]; then
     echo -e "\e[1,31mUnable to find AMI_ID\e[0m"
     exit
@@ -24,7 +24,7 @@ PRIVATE_IP=$(aws ec2 describe-instance --filters "Name=tag:Name,Values=${Instanc
   if [ -z "${PRIVATE_IP}" ]; then
     SG_ID=$(aws ec2 describe-security-groups --filter Name=group-name,Values='allow all ports' --query "SecurityGroups[*].GroupId" --output text)
       if [ -z "${SG_ID}" ]; then
-        echo -e "\e[1;33m Security Group 'allow alll ports' does not exits"
+        echo -e "\e[1;33m Security Group 'allow all ports' does not exits"
         exit
       fi
 
