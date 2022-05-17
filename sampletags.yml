@@ -1,0 +1,6 @@
+- name: tags
+  hosts: local
+  tasks:
+    - name: Centos
+      ansible.builtin.module:
+        msg: hello
