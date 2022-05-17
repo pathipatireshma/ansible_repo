@@ -1,23 +1,23 @@
-#- name: tags
-#  hosts: localhost
-#  tasks:
-#    - name: Centos
-#      debug:
-#        msg: Centos
-#        tags:
-#          - centos
-
-
-- name: Tags
+- name: tags
   hosts: localhost
   tasks:
-    - name: CentOS
+    - name: Centos
       debug:
-        msg: CentOS
-      tags:
-        - centos
-    - name: Ubuntu
-      debug:
-        msg: Ubuntu
-      tags:
-        - ubuntu
+        msg: hello
+        tags:
+          - centos
+
+
+#- name: Tags
+#  hosts: localhost
+#  tasks:
+#    - name: CentOS
+#      debug:
+#        msg: CentOS
+#      tags:
+#        - centos
+#    - name: Ubuntu
+#      debug:
+#        msg: Ubuntu
+#      tags:
+#        - ubuntu
