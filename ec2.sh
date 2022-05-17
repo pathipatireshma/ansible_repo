@@ -6,7 +6,7 @@ rm -f $LOG
 INSTANCE_CREATE() {
   Instance_name=$1
   if [ -z "${Instance_name}" ]; then
-    echo -e "Instance name is requried"
+    echo -e "\eInstance name argument is requried"
     exit
   fi
 
