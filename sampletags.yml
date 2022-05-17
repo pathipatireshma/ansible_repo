@@ -4,3 +4,11 @@
     - name: Centos
       debug:
         msg: hello
+        tag:
+          - centos
+
+
+#- name: tags
+#  hosts: all
+#  tasks:
+#    - name: Centos
