@@ -54,13 +54,13 @@ PRIVATE_IP=$(aws ec2 describe-instance --filters "Name=tag:Name,Values=${Instanc
 
 }
 
-if [ "$1" == "list" ]; then
-  aws ec2 describe-instances  --query "Reservations[*].Instances[*].{PrivateIP:PrivateIpAddress,PublicIP:PublicIpAddress,Name:Tags[?Key=='Name']|[0].Value,Status:State.Name}"  --output table
-  exit
-elif [ "$1" == "all" ]; then
-  for component in cart catalogue dispatch frontend mongodb mysql payment rabbitmq redis shipping user ; do
-    INSTANCE_CREATE ${component}
-  done
-else
-  INSTANCE_CREATE $1
-fi
+#if [ "$1" == "list" ]; then
+#  aws ec2 describe-instances  --query "Reservations[*].Instances[*].{PrivateIP:PrivateIpAddress,PublicIP:PublicIpAddress,Name:Tags[?Key=='Name']|[0].Value,Status:State.Name}"  --output table
+#  exit
+#elif [ "$1" == "all" ]; then
+#  for component in cart catalogue dispatch frontend mongodb mysql payment rabbitmq redis shipping user ; do
+#    INSTANCE_CREATE ${component}
+#  done
+#else
+#  INSTANCE_CREATE $1
+#fi
