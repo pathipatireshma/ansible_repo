@@ -1,5 +1,5 @@
 - name: tags
-  hosts: local
+  hosts: all
   tasks:
     - name: Centos
       debug:
