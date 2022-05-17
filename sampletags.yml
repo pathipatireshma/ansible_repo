@@ -3,7 +3,7 @@
   tasks:
     - name: Centos
       debug:
-        msg: hello
+        msg: Centos
         tags:
           - centos
 
