@@ -1,9 +1,9 @@
 - name: tags
   hosts: localhost
   tasks:
-    - name: Centos
+    - name: CentOS
       debug:
-        msg: Centos
+        msg: CentOS
         tags:
           - centos
 
